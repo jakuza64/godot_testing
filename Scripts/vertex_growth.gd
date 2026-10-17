@@ -9,8 +9,8 @@ extends MeshInstance3D
 ##
 ## A vertex only grows while it is "fed": a neighbour is at or above the spread
 ## trigger, or it is a starting vertex that has not fully grown yet. Tools can
-## push weights back down with reduce_vertex(); the vertex then regrows if it is
-## still fed, and stays cleared if it is not.
+## push weights down with reduce_vertex(), and devices can forbid growth on
+## vertices entirely with block_vertices().
 
 ## Time in seconds for a vertex with speed 0.5 to grow from 0 to 1.
 @export var growth_duration := 1.0
@@ -45,6 +45,7 @@ var _triangle_mesh: TriangleMesh             # for raycasts; face i = indices[3i
 var _weights := PackedFloat32Array() # padded to the weight texture size
 var _is_active := PackedByteArray()  # 1 while the vertex is in _active
 var _seed := PackedByteArray()       # 1 for starting vertices until fully grown
+var _block_count := PackedInt32Array() # > 0 while a device forbids growth here
 var _active := PackedInt32Array()    # vertices that may currently grow
 
 # GPU side.
@@ -76,6 +77,8 @@ func _process(delta: float) -> void:
 		set_process(false) # nothing is changing, so cost nothing until woken again
 
 
+# --- Control -----------------------------------------------------------------
+
 ## Starts growth from the given raw mesh vertex indices. Can be called repeatedly.
 func start_growth(start_vertices: PackedInt32Array) -> void:
 	if _vertex_to_welded.is_empty():
@@ -97,6 +100,36 @@ func reset_growth() -> void:
 	_upload_weights()
 	set_process(false)
 
+
+## Removes growth from a vertex. It is woken so it can grow back if it is still fed.
+func reduce_vertex(vertex_id: int, amount: float) -> void:
+	if amount <= 0.0 or _weights[vertex_id] <= 0.0:
+		return
+	_weights[vertex_id] = maxf(_weights[vertex_id] - amount, 0.0)
+	if _wake(vertex_id):
+		_active.append(vertex_id)
+	set_process(true)
+
+
+## Forbids growth on the given vertices. Growth already on them stays until it is
+## removed with reduce_vertex(). Blocks stack: a vertex is free again once every
+## block on it has been released with unblock_vertices().
+func block_vertices(vertex_ids: PackedInt32Array) -> void:
+	for v in vertex_ids:
+		_block_count[v] += 1
+
+
+func unblock_vertices(vertex_ids: PackedInt32Array) -> void:
+	for v in vertex_ids:
+		_block_count[v] = maxi(_block_count[v] - 1, 0)
+		# Freed vertices may be fed again, so let the simulation look at them.
+		if _block_count[v] == 0 and _wake(v):
+			_active.append(v)
+	if not _active.is_empty():
+		set_process(true)
+
+
+# --- Queries -----------------------------------------------------------------
 
 ## Returns the raw mesh vertex index closest to a point in this node's local space.
 func find_nearest_vertex(local_point: Vector3) -> int:
@@ -130,8 +163,14 @@ func raycast(world_origin: Vector3, world_direction: Vector3, max_distance: floa
 	}
 
 
-## Returns the three vertex ids of a face from raycast(). Use these ids with
-## get_vertex_world_position() and reduce_vertex().
+## True if world_point is within radius of this mesh's bounding box. A cheap
+## pre-check so far-away meshes can be skipped.
+func is_near(world_point: Vector3, radius: float) -> bool:
+	var world_aabb := global_transform * get_aabb()
+	return world_aabb.grow(radius).has_point(world_point)
+
+
+## Returns the three vertex ids of a face from raycast().
 func get_face_vertex_ids(face: int) -> PackedInt32Array:
 	var ids := PackedInt32Array()
 	for corner in 3:
@@ -143,18 +182,38 @@ func get_vertex_world_position(vertex_id: int) -> Vector3:
 	return global_transform * _welded_positions[vertex_id]
 
 
-## Returns every vertex within radius metres (world space) of world_point,
-## starting from the face a raycast hit. It walks the mesh edges outward, so it
-## stays on the connected surface and never reaches through a wall to geometry
-## that is only close in space. The cost depends on how many vertices are in
-## range, not on the size of the mesh.
+## Every vertex within radius metres (world space) of world_point, starting from
+## the face a raycast hit. See _collect_in_radius().
 func get_vertices_in_radius(face: int, world_point: Vector3, radius: float) -> PackedInt32Array:
+	return _collect_in_radius(get_face_vertex_ids(face), world_point, radius)
+
+
+## Same, for a point with no hit face: starts from the nearest vertex. Scans every
+## vertex once, so use it for one-off queries (placing a device), not every frame.
+func get_vertices_near_point(world_point: Vector3, radius: float) -> PackedInt32Array:
+	var nearest := 0
+	var nearest_dist := INF
+	for i in _welded_positions.size():
+		var d := get_vertex_world_position(i).distance_squared_to(world_point)
+		if d < nearest_dist:
+			nearest_dist = d
+			nearest = i
+	return _collect_in_radius(PackedInt32Array([nearest]), world_point, radius)
+
+
+## Walks the mesh edges outward from the seed vertices and returns everything
+## within the radius. Following the edges keeps it on the connected surface, so it
+## never reaches through a wall to geometry that is only close in space. The cost
+## depends on how many vertices are in range, not on the size of the mesh.
+func _collect_in_radius(seeds: PackedInt32Array, world_point: Vector3, radius: float) -> PackedInt32Array:
 	var found := PackedInt32Array()
-	var queue := get_face_vertex_ids(face)
-	var seed_count := queue.size()
+	var queue := PackedInt32Array()
 	var visited := {}
-	for vertex in queue:
-		visited[vertex] = true
+	for seed_vertex in seeds:
+		if not visited.has(seed_vertex):
+			visited[seed_vertex] = true
+			queue.append(seed_vertex)
+	var seed_count := queue.size()
 
 	var i := 0
 	while i < queue.size():
@@ -162,9 +221,8 @@ func get_vertices_in_radius(face: int, world_point: Vector3, radius: float) -> P
 		var inside := get_vertex_world_position(vertex).distance_to(world_point) <= radius
 		if inside:
 			found.append(vertex)
-		# The face's own vertices always expand, so a long thin triangle can't
-		# hide vertices that are in range. Everything else only expands from
-		# inside the radius.
+		# The seeds always expand, so a long thin triangle can't hide vertices
+		# that are in range. Everything else only expands from inside the radius.
 		if inside or i < seed_count:
 			for neighbor in _neighbors[vertex]:
 				if not visited.has(neighbor):
@@ -172,16 +230,6 @@ func get_vertices_in_radius(face: int, world_point: Vector3, radius: float) -> P
 					queue.append(neighbor)
 		i += 1
 	return found
-
-
-## Removes growth from a vertex. It is woken so it can grow back if it is still fed.
-func reduce_vertex(vertex_id: int, amount: float) -> void:
-	if amount <= 0.0 or _weights[vertex_id] <= 0.0:
-		return
-	_weights[vertex_id] = maxf(_weights[vertex_id] - amount, 0.0)
-	if _wake(vertex_id):
-		_active.append(vertex_id)
-	set_process(true)
 
 
 # --- Simulation --------------------------------------------------------------
@@ -192,8 +240,8 @@ func _step(delta: float) -> void:
 	var next_active := PackedInt32Array()
 
 	for v in _active:
-		# No longer fed (for example a neighbour was reversed): stop growing until
-		# a neighbour crosses the trigger again.
+		# No longer fed (a neighbour was reversed, or a device blocked this
+		# vertex): stop growing until a neighbour crosses the trigger again.
 		if not _is_fed(v, trigger):
 			_is_active[v] = 0
 			continue
@@ -219,6 +267,8 @@ func _step(delta: float) -> void:
 
 
 func _is_fed(v: int, trigger: float) -> bool:
+	if _block_count[v] > 0:
+		return false
 	if _seed[v] != 0:
 		return true
 	for n in _neighbors[v]:
@@ -227,10 +277,11 @@ func _is_fed(v: int, trigger: float) -> bool:
 	return false
 
 
-## Adds a vertex to the active set. Returns false if it is already active, can't
-## grow, or is already fully grown.
+## Adds a vertex to the active set. Returns false if it is already active, blocked,
+## can't grow, or is already fully grown.
 func _wake(v: int) -> bool:
-	if _is_active[v] != 0 or _rate_multiplier[v] <= 0.0 or _weights[v] >= 1.0:
+	if _is_active[v] != 0 or _block_count[v] > 0 \
+			or _rate_multiplier[v] <= 0.0 or _weights[v] >= 1.0:
 		return false
 	_is_active[v] = 1
 	return true
@@ -320,6 +371,8 @@ func _prepare_mesh_data() -> void:
 	_is_active.fill(0)
 	_seed.resize(_welded_positions.size())
 	_seed.fill(0)
+	_block_count.resize(_welded_positions.size())
+	_block_count.fill(0)
 
 
 func _add_neighbor(a: int, b: int) -> void:

@@ -1,9 +1,17 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://b3jrkaojcjwit"]
 
-[ext_resource type="Shader" uid="uid://6xgtwglrvyqb" path="res://Shaders/vertex_alpha_debug.gdshader" id="1_hs1vq"]
+[ext_resource type="Shader" uid="uid://bc2l4xs1cgp10" path="res://Shaders/growth_debug.gdshader" id="1_hs1vq"]
+[ext_resource type="Shader" uid="uid://b5xtxg0h0ttnh" path="res://Shaders/growth_debug_wireframe.gdshader" id="1_y2i4k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5rbs6"]
+render_priority = 0
+shader = ExtResource("1_y2i4k")
+shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/normal_offset = 0.003
 
 [resource]
 render_priority = 0
+next_pass = SubResource("ShaderMaterial_5rbs6")
 shader = ExtResource("1_hs1vq")
 shader_parameter/color_low = Color(0, 0, 1, 1)
 shader_parameter/color_mid = Color(0, 1, 0, 1)

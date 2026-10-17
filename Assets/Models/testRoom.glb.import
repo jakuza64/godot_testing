@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://daku562xfnswl"
-path="res://.godot/imported/testPlane.glb-be79ed3800ac36c3baa819c6789f3fde.scn"
+path="res://.godot/imported/testRoom.glb-48a4b43a61cab6efe043423aa866777f.scn"
 
 [deps]
 
-source_file="res://Assets/Models/testPlane.glb"
-dest_files=["res://.godot/imported/testPlane.glb-be79ed3800ac36c3baa819c6789f3fde.scn"]
+source_file="res://Assets/Models/testRoom.glb"
+dest_files=["res://.godot/imported/testRoom.glb-48a4b43a61cab6efe043423aa866777f.scn"]
 
 [params]
 
@@ -24,7 +24,7 @@ nodes/import_as_skeleton_bones=false
 nodes/use_name_suffixes=true
 nodes/use_node_type_suffixes=true
 meshes/ensure_tangents=true
-meshes/generate_lods=true
+meshes/generate_lods=false
 meshes/create_shadow_meshes=true
 meshes/light_baking=1
 meshes/lightmap_texel_size=0.2

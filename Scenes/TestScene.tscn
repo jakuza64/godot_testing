@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://wr2n42q2y7uh" path="res://Prefabs/Player.tscn" id="4_iufkg"]
 [ext_resource type="PackedScene" uid="uid://db3a3fcqppusi" path="res://Prefabs/Coin.tscn" id="7_c264a"]
 [ext_resource type="Script" uid="uid://xdacxq7eusq4" path="res://Scripts/hud.gd" id="8_6xh1p"]
-[ext_resource type="PackedScene" uid="uid://cck3pfusjg1l7" path="res://Prefabs/test_plane.tscn" id="9_5rbs6"]
+[ext_resource type="PackedScene" uid="uid://cck3pfusjg1l7" path="res://Prefabs/testRoom.tscn" id="9_5rbs6"]
+[ext_resource type="Script" uid="uid://bpdbjaggxvx4f" path="res://Scripts/crosshair.gd" id="9_xjl2p"]
+[ext_resource type="PackedScene" uid="uid://cn50ggom8ys1w" path="res://Prefabs/testCube.tscn" id="10_201fe"]
 
 [node name="TestScene" type="Node3D" unique_id=556621491]
 
@@ -116,7 +118,6 @@ transform = Transform3D(0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.70710
 transform = Transform3D(0.86602545, 0, 0.5, 0, 1, 0, -0.5, 0, 0.86602545, -10.797844, 0.5998021, -5.8783073)
 
 [node name="Player" parent="." unique_id=136728619 instance=ExtResource("4_iufkg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1699171, 1.0872736, -6.3853717)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=844398898]
 script = ExtResource("8_6xh1p")
@@ -133,5 +134,23 @@ theme_override_constants/margin_bottom = 16
 layout_mode = 2
 text = "Coins: 0 / 0"
 
-[node name="testPlane_new" parent="." unique_id=589472705 instance=ExtResource("9_5rbs6")]
-transform = Transform3D(0.5, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, 0, 4, -15.25)
+[node name="Crosshair" type="Control" parent="HUD" unique_id=790071005]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_xjl2p")
+
+[node name="testRoom" parent="." unique_id=589472705 instance=ExtResource("9_5rbs6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0.25, 11)
+
+[node name="testCube2" parent="." unique_id=567038816 instance=ExtResource("10_201fe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)

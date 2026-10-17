@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cn50ggom8ys1w"]
+
+[ext_resource type="PackedScene" uid="uid://ca2fg1qlqkq1m" path="res://Assets/Models/testCube.glb" id="1_ihp7r"]
+[ext_resource type="Material" uid="uid://b3jrkaojcjwit" path="res://Resources/VertexAlphaDebug.tres" id="2_nov1h"]
+[ext_resource type="Script" uid="uid://b8s5lj4yvygf5" path="res://Scripts/vertex_growth.gd" id="3_a2nn3"]
+
+[node name="testCube2" unique_id=567038816 instance=ExtResource("1_ihp7r")]
+
+[node name="testCube" parent="." index="0" unique_id=146311270]
+material_override = ExtResource("2_nov1h")
+script = ExtResource("3_a2nn3")
+growth_duration = 2.0
+spread_threshold = 0.75

@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://cck3pfusjg1l7"]
 
-[ext_resource type="PackedScene" uid="uid://daku562xfnswl" path="res://Assets/Models/testPlane.glb" id="1_73y4w"]
+[ext_resource type="PackedScene" uid="uid://daku562xfnswl" path="res://Assets/Models/testRoom.glb" id="1_73y4w"]
 [ext_resource type="Material" uid="uid://b3jrkaojcjwit" path="res://Resources/VertexAlphaDebug.tres" id="2_djqhu"]
 [ext_resource type="Script" uid="uid://b8s5lj4yvygf5" path="res://Scripts/vertex_growth.gd" id="3_hjotk"]
 
 [node name="testPlane_new" unique_id=589472705 instance=ExtResource("1_73y4w")]
 
-[node name="Plane" parent="." index="0" unique_id=78382683]
+[node name="testRoom" parent="." index="0" unique_id=1954902080]
 material_override = ExtResource("2_djqhu")
 script = ExtResource("3_hjotk")
+growth_duration = 2.0
 spread_threshold = 0.75
-start_vertex_index = 15

@@ -1,0 +1,25 @@
+[gd_resource type="Environment" format=3 uid="uid://dmig41t3nsddl"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wicfy"]
+sky_top_color = Color(0.17819999, 0.32895005, 0.54, 1)
+
+[sub_resource type="Sky" id="Sky_mncer"]
+sky_material = SubResource("ProceduralSkyMaterial_wicfy")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_mncer")
+tonemap_mode = 2
+tonemap_exposure = 0.8
+tonemap_white = 1.1
+ssr_enabled = true
+ssao_enabled = true
+ssao_intensity = 1.25
+ssil_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
+adjustment_enabled = true
+adjustment_contrast = 1.25
+adjustment_saturation = 1.5

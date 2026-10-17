@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c2n54onfhvxbt"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyfru"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gyfru"]
+
+[node name="PhysCube" type="RigidBody3D" unique_id=1670756765]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=318606880]
+gi_mode = 0
+mesh = SubResource("BoxMesh_gyfru")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1071273468]
+shape = SubResource("BoxShape3D_gyfru")

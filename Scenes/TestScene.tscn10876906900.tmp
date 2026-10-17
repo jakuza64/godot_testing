@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://djvogfecgjfea"]
+
+[ext_resource type="PackedScene" uid="uid://bu5q3n2burnsh" path="res://Static/StaticFloor.tscn" id="1_8k7wh"]
+[ext_resource type="PackedScene" uid="uid://lyvvlvexrceh" path="res://Static/StaticCube.tscn" id="2_iufkg"]
+[ext_resource type="PackedScene" uid="uid://c2n54onfhvxbt" path="res://Physics/PhysCube.tscn" id="3_0f5h7"]
+[ext_resource type="PackedScene" uid="uid://dda3h8xugs6k5" path="res://Static/StaticWall.tscn" id="3_c264a"]
+[ext_resource type="PackedScene" uid="uid://wr2n42q2y7uh" path="res://Player.tscn" id="4_iufkg"]
+[ext_resource type="Texture2D" uid="uid://bbbubj61ex26k" path="res://icon.svg" id="5_0f5h7"]
+[ext_resource type="Script" uid="uid://8bgfwxtxsklk" path="res://Scenes/icon.gd" id="6_qsjrb"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wicfy"]
+
+[sub_resource type="Sky" id="Sky_mncer"]
+sky_material = SubResource("ProceduralSkyMaterial_wicfy")
+
+[sub_resource type="Environment" id="Environment_pn5b2"]
+background_mode = 2
+sky = SubResource("Sky_mncer")
+ssao_enabled = true
+ssao_radius = 1.5
+ssao_intensity = 2.5
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
+adjustment_enabled = true
+adjustment_contrast = 1.25
+adjustment_saturation = 1.5
+
+[node name="TestScene" type="Node3D" unique_id=556621491]
+
+[node name="SceneSettings" type="Node3D" parent="." unique_id=1239059958]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SceneSettings" unique_id=1343666733]
+transform = Transform3D(0.70710677, -0.5, 0.50000006, 0, 0.7071068, 0.70710677, -0.7071068, -0.49999997, 0.5, 5.03876, 6.2254276, 1.0306048)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SceneSettings" unique_id=417597775]
+environment = SubResource("Environment_pn5b2")
+
+[node name="World" type="Node3D" parent="." unique_id=953397143]
+
+[node name="Floor" parent="World" unique_id=1728230452 instance=ExtResource("1_8k7wh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="Cube" parent="World" unique_id=367336947 instance=ExtResource("2_iufkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2.25, -10)
+
+[node name="Cube2" parent="World" unique_id=1479705901 instance=ExtResource("2_iufkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.25, -10)
+
+[node name="Wall" parent="World" unique_id=568852547 instance=ExtResource("3_c264a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+
+[node name="Wall2" parent="World" unique_id=1513949542 instance=ExtResource("3_c264a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+
+[node name="Wall3" parent="World" unique_id=1056805385 instance=ExtResource("3_c264a")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.993822e-07, 0, -16)
+
+[node name="Wall4" parent="World" unique_id=1158140182 instance=ExtResource("3_c264a")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.993822e-07, 0, 16)
+
+[node name="Physics" type="Node3D" parent="." unique_id=169626330]
+
+[node name="PhysCube" parent="Physics" unique_id=1670756765 instance=ExtResource("3_0f5h7")]
+transform = Transform3D(0.88418764, -0.3889349, 0.25873116, 0.46713185, 0.7361764, -0.4897266, 0, 0.5538718, 0.83260196, -0.375, 3, -6)
+
+[node name="PhysCube2" parent="Physics" unique_id=2109535800 instance=ExtResource("3_0f5h7")]
+transform = Transform3D(0.89311486, 0.15946272, 0.42061567, -0.25020456, 0.9531677, 0.16990982, -0.37382296, -0.25698888, 0.8911864, -0.375, 4.7612762, -6)
+
+[node name="PhysCube3" parent="Physics" unique_id=1728916799 instance=ExtResource("3_0f5h7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7931287, 4.5, -9.743759)
+
+[node name="PhysCube4" parent="Physics" unique_id=569814977 instance=ExtResource("3_0f5h7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.500874, 5.5, -9.743759)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1493638020]
+transform = Transform3D(0.8511675, 0.20855013, -0.4816854, 0, 0.91768086, 0.39731836, 0.5248943, -0.33818448, 0.78110003, -4.963353, 4.295586, 3.85672)
+
+[node name="Player" parent="." unique_id=136728619 instance=ExtResource("4_iufkg")]
+transform = Transform3D(0.82636166, 0, -0.5631398, 0, 1, 0, 0.5631398, 0, 0.82636166, -0.1699171, 1.0872736, -6.3853717)
+
+[node name="Icon" type="Sprite3D" parent="." unique_id=1499328135]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+texture = ExtResource("5_0f5h7")
+script = ExtResource("6_qsjrb")

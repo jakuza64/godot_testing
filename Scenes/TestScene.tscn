@@ -1,0 +1,137 @@
+[gd_scene format=3 uid="uid://djvogfecgjfea"]
+
+[ext_resource type="PackedScene" uid="uid://bu5q3n2burnsh" path="res://Prefabs/Static/StaticFloor.tscn" id="1_8k7wh"]
+[ext_resource type="Environment" uid="uid://dmig41t3nsddl" path="res://Resources/TestScene_Env.tres" id="1_c264a"]
+[ext_resource type="PackedScene" uid="uid://lyvvlvexrceh" path="res://Prefabs/Static/StaticCube.tscn" id="2_iufkg"]
+[ext_resource type="PackedScene" uid="uid://c2n54onfhvxbt" path="res://Prefabs/Physics/PhysCube.tscn" id="3_0f5h7"]
+[ext_resource type="PackedScene" uid="uid://dda3h8xugs6k5" path="res://Prefabs/Static/StaticWall.tscn" id="3_c264a"]
+[ext_resource type="PackedScene" uid="uid://wr2n42q2y7uh" path="res://Prefabs/Player.tscn" id="4_iufkg"]
+[ext_resource type="PackedScene" uid="uid://db3a3fcqppusi" path="res://Prefabs/Coin.tscn" id="7_c264a"]
+[ext_resource type="Script" uid="uid://xdacxq7eusq4" path="res://Scripts/hud.gd" id="8_6xh1p"]
+[ext_resource type="PackedScene" uid="uid://cck3pfusjg1l7" path="res://Prefabs/test_plane.tscn" id="9_5rbs6"]
+
+[node name="TestScene" type="Node3D" unique_id=556621491]
+
+[node name="SceneSettings" type="Node3D" parent="." unique_id=1239059958]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SceneSettings" unique_id=1343666733]
+transform = Transform3D(0.70710677, -0.5, 0.50000006, 0, 0.7071068, 0.70710677, -0.7071068, -0.49999997, 0.5, 5.03876, 6.2254276, 1.0306048)
+light_color = Color(0.9, 0.8643, 0.774, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SceneSettings" unique_id=417597775]
+environment = ExtResource("1_c264a")
+
+[node name="World" type="Node3D" parent="." unique_id=953397143]
+
+[node name="Floor" parent="World" unique_id=1728230452 instance=ExtResource("1_8k7wh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="Cube" parent="World" unique_id=367336947 instance=ExtResource("2_iufkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -10)
+
+[node name="Cube3" parent="World" unique_id=1628601811 instance=ExtResource("2_iufkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, -10)
+
+[node name="Cube4" parent="World" unique_id=1578802748 instance=ExtResource("2_iufkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -6)
+
+[node name="Cube5" parent="World" unique_id=1363276700 instance=ExtResource("2_iufkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -1, -6)
+
+[node name="Cube2" parent="World" unique_id=1479705901 instance=ExtResource("2_iufkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, -10)
+
+[node name="Wall" parent="World" unique_id=568852547 instance=ExtResource("3_c264a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
+
+[node name="Wall2" parent="World" unique_id=1513949542 instance=ExtResource("3_c264a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
+
+[node name="Wall3" parent="World" unique_id=1056805385 instance=ExtResource("3_c264a")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.993822e-07, 0, -16)
+
+[node name="Wall4" parent="World" unique_id=1158140182 instance=ExtResource("3_c264a")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.993822e-07, 0, 16)
+
+[node name="Physics" type="Node3D" parent="." unique_id=169626330]
+
+[node name="PhysCube" parent="Physics" unique_id=1670756765 instance=ExtResource("3_0f5h7")]
+transform = Transform3D(0.88418764, -0.3889349, 0.25873116, 0.46713185, 0.7361764, -0.4897266, 0, 0.5538718, 0.83260196, -10.807123, 3, -4.333924)
+
+[node name="PhysCube3" parent="Physics" unique_id=1728916799 instance=ExtResource("3_0f5h7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7931287, 4.5, -9.743759)
+
+[node name="PhysCube2" parent="Physics" unique_id=2109535800 instance=ExtResource("3_0f5h7")]
+transform = Transform3D(0.89311486, 0.15946272, 0.42061567, -0.25020456, 0.9531677, 0.16990982, -0.37382296, -0.25698888, 0.8911864, -10.807123, 4.7612762, -4.333924)
+
+[node name="PhysCube4" parent="Physics" unique_id=569814977 instance=ExtResource("3_0f5h7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.500874, 5.5, -9.743759)
+
+[node name="Coins" type="Node3D" parent="." unique_id=1343447986]
+
+[node name="Coin" parent="Coins" unique_id=1664790350 instance=ExtResource("7_c264a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.444603, 0.5998021, -1.0725408)
+
+[node name="Coin2" parent="Coins" unique_id=227591134 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, 4.444603, 1.099802, -1.0725408)
+
+[node name="Coin3" parent="Coins" unique_id=103172626 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, 5.444603, 1.349802, -1.0725408)
+
+[node name="Coin4" parent="Coins" unique_id=926098079 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 6.444603, 1.099802, -1.0725408)
+
+[node name="Coin5" parent="Coins" unique_id=1110143520 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.49999997, 0, -0.86602545, 0, 1, 0, 0.86602545, 0, 0.49999997, 7.444603, 0.5998021, -1.0725408)
+
+[node name="Coin11" parent="Coins" unique_id=563330509 instance=ExtResource("7_c264a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8585882, 4.8738074, -10.090403)
+
+[node name="Coin12" parent="Coins" unique_id=627416855 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, 0.14141178, 5.3738074, -10.090403)
+
+[node name="Coin13" parent="Coins" unique_id=1546324947 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, 1.1414118, 5.6238074, -10.090403)
+
+[node name="Coin14" parent="Coins" unique_id=375839286 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 2.1414118, 5.3738074, -10.090403)
+
+[node name="Coin15" parent="Coins" unique_id=1993527346 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.49999997, 0, -0.86602545, 0, 1, 0, 0.86602545, 0, 0.49999997, 3.1414118, 4.8738074, -10.090403)
+
+[node name="Coin6" parent="Coins" unique_id=1644507857 instance=ExtResource("7_c264a")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10.797844, 0.5998021, -1.8783073)
+
+[node name="Coin7" parent="Coins" unique_id=1061163728 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.25881904, 0, 0.96592593, 0, 1, 0, -0.96592593, 0, 0.25881904, -10.797844, 1.099802, -2.8783073)
+
+[node name="Coin8" parent="Coins" unique_id=774110482 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.49999997, 0, 0.8660254, 0, 1, 0, -0.8660254, 0, 0.49999997, -10.797844, 1.349802, -3.8783073)
+
+[node name="Coin9" parent="Coins" unique_id=1196775703 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071067, -10.797844, 1.099802, -4.8783073)
+
+[node name="Coin10" parent="Coins" unique_id=980360599 instance=ExtResource("7_c264a")]
+transform = Transform3D(0.86602545, 0, 0.5, 0, 1, 0, -0.5, 0, 0.86602545, -10.797844, 0.5998021, -5.8783073)
+
+[node name="Player" parent="." unique_id=136728619 instance=ExtResource("4_iufkg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1699171, 1.0872736, -6.3853717)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=844398898]
+script = ExtResource("8_6xh1p")
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD" unique_id=292569301]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Label" type="Label" parent="HUD/MarginContainer" unique_id=924802208]
+layout_mode = 2
+text = "Coins: 0 / 0"
+
+[node name="testPlane_new" parent="." unique_id=589472705 instance=ExtResource("9_5rbs6")]
+transform = Transform3D(0.5, 0, 0, 0, -2.1855694e-08, -0.5, 0, 0.5, -2.1855694e-08, 0, 4, -15.25)

@@ -4,6 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://dom25x5dr2q01" path="res://Assets/Sounds/CoinPickup.wav" id="2_x3d5u"]
 [ext_resource type="Script" uid="uid://bx83ixk4h56mj" path="res://Scripts/player_sounds.gd" id="3_b43ah"]
 [ext_resource type="Script" uid="uid://6va60f3bgr3g" path="res://Scripts/growth_reverser.gd" id="4_shmu5"]
+[ext_resource type="Script" uid="uid://m0ug0w78n6c4" path="res://Scripts/growth_device_placer.gd" id="5_vxq8l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c264a"]
 albedo_color = Color(1, 0.64, 0.27999997, 1)
@@ -45,3 +46,7 @@ script = ExtResource("4_shmu5")
 max_range = 20.0
 brush_radius = 1.25
 reverse_rate = 4.5
+
+[node name="GrowthDevicePlacer" type="Node3D" parent="." unique_id=2097503016]
+script = ExtResource("5_vxq8l")
+max_range = 20.0

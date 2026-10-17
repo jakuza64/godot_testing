@@ -3,37 +3,45 @@
 [ext_resource type="Script" uid="uid://b7c3r7fb618dp" path="res://Scripts/player.gd" id="1_xhfnw"]
 [ext_resource type="AudioStream" uid="uid://dom25x5dr2q01" path="res://Assets/Sounds/CoinPickup.wav" id="2_x3d5u"]
 [ext_resource type="Script" uid="uid://bx83ixk4h56mj" path="res://Scripts/player_sounds.gd" id="3_b43ah"]
+[ext_resource type="Script" uid="uid://6va60f3bgr3g" path="res://Scripts/growth_reverser.gd" id="4_shmu5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c264a"]
 albedo_color = Color(1, 0.64, 0.27999997, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_0rwas"]
 material = SubResource("StandardMaterial3D_c264a")
+size = Vector3(0.5, 1.8, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gyfru"]
+size = Vector3(0.5, 1.8, 0.5)
 
 [node name="Player" type="CharacterBody3D" unique_id=136728619 groups=["player"]]
 script = ExtResource("1_xhfnw")
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="." unique_id=926733653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+cast_shadow = 3
 gi_mode = 0
 mesh = SubResource("BoxMesh_0rwas")
 
 [node name="PlayerCollider" type="CollisionShape3D" parent="." unique_id=188779281]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("BoxShape3D_gyfru")
-
-[node name="CameraController" type="Node3D" parent="." unique_id=43479531]
-top_level = true
-
-[node name="CameraTarget" type="Node3D" parent="CameraController" unique_id=1253245775]
-transform = Transform3D(1, 0, 0, 0, 0.9238401, 0.3827788, 0, -0.3827788, 0.9238401, 0, 2.1214385, 3.6217878)
-
-[node name="Camera3D" type="Camera3D" parent="CameraController/CameraTarget" unique_id=1464451236]
-transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
-current = true
 
 [node name="CoinPickupSound" type="AudioStreamPlayer3D" parent="." unique_id=255031225]
 stream = ExtResource("2_x3d5u")
 volume_db = -10.0
 max_polyphony = 5
 script = ExtResource("3_b43ah")
+
+[node name="Head" type="Node3D" parent="." unique_id=98593534]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head" unique_id=1464451236]
+current = true
+
+[node name="GrowthReverser" type="Node3D" parent="." unique_id=1651066882]
+script = ExtResource("4_shmu5")
+max_range = 20.0
+brush_radius = 1.25
+reverse_rate = 4.5

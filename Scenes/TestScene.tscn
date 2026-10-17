@@ -54,7 +54,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.993822e-07, 0, -16)
 
 [node name="Wall4" parent="World" unique_id=1158140182 instance=ExtResource("3_c264a")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.993822e-07, 0, 16)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 4.7683716e-07, 0, 16)
 
 [node name="Physics" type="Node3D" parent="." unique_id=169626330]
 
@@ -150,7 +150,7 @@ grow_vertical = 2
 script = ExtResource("9_xjl2p")
 
 [node name="testRoom" parent="." unique_id=589472705 instance=ExtResource("9_5rbs6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0.25, 11)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -11.25, 0.25, 11.25)
 
 [node name="testCube2" parent="." unique_id=567038816 instance=ExtResource("10_201fe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)

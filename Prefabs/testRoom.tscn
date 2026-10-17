@@ -6,7 +6,7 @@
 
 [node name="testPlane_new" unique_id=589472705 instance=ExtResource("1_73y4w")]
 
-[node name="testRoom" parent="." index="0" unique_id=1954902080]
+[node name="testRoom" parent="." index="0" unique_id=1168323836]
 material_override = ExtResource("2_djqhu")
 script = ExtResource("3_hjotk")
 growth_duration = 2.0

@@ -22,6 +22,7 @@ var _sphere := RadiusDebugSphere.new()
 
 
 func _ready() -> void:
+	add_to_group("player_tool")
 	# Keep the player's own collider from blocking the occlusion check.
 	var body := get_parent() as CollisionObject3D
 	if body != null:

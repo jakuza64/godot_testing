@@ -182,6 +182,10 @@ func get_vertex_world_position(vertex_id: int) -> Vector3:
 	return global_transform * _welded_positions[vertex_id]
 
 
+func get_vertex_weight(vertex_id: int) -> float:
+	return _weights[vertex_id]
+
+
 ## Every vertex within radius metres (world space) of world_point, starting from
 ## the face a raycast hit. See _collect_in_radius().
 func get_vertices_in_radius(face: int, world_point: Vector3, radius: float) -> PackedInt32Array:

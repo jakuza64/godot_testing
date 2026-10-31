@@ -45,6 +45,18 @@ func is_empty() -> bool:
 	return _entries.is_empty()
 
 
+## The highest growth weight (0 to 1) on any vertex in the area. Used by damage
+## sources to ask "how much growth is here?" without touching the simulation.
+func peak_weight() -> float:
+	var peak := 0.0
+	for entry: Entry in _entries:
+		if not is_instance_valid(entry.growth):
+			continue
+		for id in entry.ids:
+			peak = maxf(peak, entry.growth.get_vertex_weight(id))
+	return peak
+
+
 ## Removes rate * strength * delta of growth from every vertex.
 func reduce(rate: float, delta: float) -> void:
 	for entry: Entry in _entries:

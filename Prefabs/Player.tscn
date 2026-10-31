@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://wr2n42q2y7uh"]
 
 [ext_resource type="Script" uid="uid://b7c3r7fb618dp" path="res://Scripts/player.gd" id="1_xhfnw"]
-[ext_resource type="AudioStream" uid="uid://dom25x5dr2q01" path="res://Assets/Sounds/CoinPickup.wav" id="2_x3d5u"]
-[ext_resource type="Script" uid="uid://bx83ixk4h56mj" path="res://Scripts/player_sounds.gd" id="3_b43ah"]
 [ext_resource type="Script" uid="uid://6va60f3bgr3g" path="res://Scripts/growth_reverser.gd" id="4_shmu5"]
 [ext_resource type="Script" uid="uid://m0ug0w78n6c4" path="res://Scripts/growth_device_placer.gd" id="5_vxq8l"]
+[ext_resource type="Script" uid="uid://bn5jgkypyqqhr" path="res://Scripts/health_component.gd" id="6_gg3t4"]
+[ext_resource type="Script" uid="uid://chgmhpa25mafi" path="res://Scripts/growth_exposure.gd" id="7_javds"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c264a"]
 albedo_color = Color(1, 0.64, 0.27999997, 1)
@@ -29,12 +29,6 @@ mesh = SubResource("BoxMesh_0rwas")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 shape = SubResource("BoxShape3D_gyfru")
 
-[node name="CoinPickupSound" type="AudioStreamPlayer3D" parent="." unique_id=255031225]
-stream = ExtResource("2_x3d5u")
-volume_db = -10.0
-max_polyphony = 5
-script = ExtResource("3_b43ah")
-
 [node name="Head" type="Node3D" parent="." unique_id=98593534]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
@@ -50,3 +44,9 @@ reverse_rate = 4.5
 [node name="GrowthDevicePlacer" type="Node3D" parent="." unique_id=2097503016]
 script = ExtResource("5_vxq8l")
 max_range = 20.0
+
+[node name="GrowthExposure" type="Node3D" parent="." unique_id=1711910768]
+script = ExtResource("7_javds")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=934874003]
+script = ExtResource("6_gg3t4")
